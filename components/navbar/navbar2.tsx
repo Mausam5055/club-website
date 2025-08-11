@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/compat/router";
-import ThemeSwitch from "../toggleSwitch";
+import ThemeSwitch from "../toggle/toggleSwitch";
 
 const Navbar2: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

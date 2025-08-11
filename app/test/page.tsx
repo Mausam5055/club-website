@@ -1,6 +1,6 @@
-import TicketForm from '@/components/component/frontend/eventTicket'
-import Googlemap from '@/components/component/frontend/googlemap'
-import TutoralComp from '@/components/component/frontend/tutoralComp'
+import TicketForm from '@/components/event/eventTicket'
+import Googlemap from '@/components/map/googlemap'
+import TutoralComp from '@/components/tutorial/tutoralComp'
 // import NewComp from '@/components/component/frontend/newComp'
 import React from 'react'
 

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import  Video  from "./video";
-import BookComponent from "./bookComponent";
+import  Video  from "../video/video";
+import BookComponent from "../book/bookComponent";
 import Image from "next/image";
 
 export default function ImageSlider() {

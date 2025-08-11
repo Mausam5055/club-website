@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image'
 import React, { useEffect } from 'react'
-import Googlemap from '../googlemap'
+import Googlemap from '../map/googlemap'
 
 declare global {
   interface Window {
