@@ -6,79 +6,20 @@ import BookComponent from "../book/bookComponent";
 import Image from "next/image";
 
 export default function ImageSlider() {
-  const [showModal, setShowModal] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowModal(true);
-    }, 1000);
-
-    // Add animation completion timer
     const animationTimer = setTimeout(() => {
       setAnimationComplete(true);
     }, 1500);
 
     return () => {
-      clearTimeout(timer);
       clearTimeout(animationTimer);
     };
   }, []);
 
   return (
     <div className="flex flex-col items-center mb-8 md:mb-12 lg:mb-16 gap-y-8 px-4 sm:px-6 w-full overflow-hidden">
-      {/* Announcement Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="relative bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full p-6 animate-slideUp">
-            <button
-              onClick={() => setShowModal(false)}
-              aria-label="Close Announcement"
-              className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors hover:rotate-90 duration-300"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            <div className="text-center space-y-4">
-              {/* Added Image Section */}
-              <div className="relative w-full h-48 md:h-64 mb-4 rounded-xl overflow-hidden">
-                <Image
-                  src="/images/vitbgotlatent2.jpg"
-                  alt="VITB Got Latent Season 2"
-                  fill
-                  className="object-cover transform hover:scale-105 transition-transform duration-700"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              </div>
-
-              <div className="animate-bounce-slow text-4xl mb-2">🎉</div>
-              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-red-500 to-red-600 text-transparent bg-clip-text">
-                VITB Got Latent Season 2
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 animate-fadeIn">
-                The Ultimate Fun Experience is coming soon!
-              </p>
-              <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg transform hover:scale-105 transition-all duration-300">
-                <p className="text-red-600 dark:text-red-300 font-semibold flex items-center justify-center gap-2">
-                  <span className="animate-pulse">📅</span> Mark your calendar: 22 February 2025
-                </p>
-              </div>
-              <a
-                href="#featured-event"
-                aria-label="Learn more about VITB Got Latent Season 2"
-                onClick={() => setShowModal(false)}
-                className="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-full font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 mt-4 transform hover:scale-105 hover:shadow-lg"
-              >
-                Learn More →
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Featured Event Section - Now First */}
       <div id="featured-event" className={`w-full max-w-6xl mx-auto transition-all duration-700 ${animationComplete ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         {/* Section Header */}
@@ -108,7 +49,6 @@ export default function ImageSlider() {
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-            
             {/* Banner Content */}
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-white">
               <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-fade-in">
@@ -215,7 +155,6 @@ export default function ImageSlider() {
               <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-red-500"></div>
               <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-red-500"></div>
               <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-red-500"></div>
-              
               <Video />
             </div>
           </div>
@@ -231,7 +170,6 @@ export default function ImageSlider() {
       <div className="relative flex justify-center items-center w-[92vw] sm:w-[85vw] md:w-[80vw] h-auto min-h-[40vh] my-8 px-4">
         {/* Background Decoration */}
         <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-500 dark:from-red-600 dark:to-red-700 border border-transparent rounded-lg transform -rotate-2 hover:rotate-0 transition-transform duration-300"></div>
-
         {/* Content Box */}
         <div className="absolute flex flex-col justify-center items-center inset-0 bg-white dark:bg-gray-800 border border-transparent rounded-md z-10 gap-y-8 px-8 md:px-16 py-8">
           <h1 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-center dark:text-white">
@@ -241,7 +179,6 @@ export default function ImageSlider() {
             Become a member to access exclusive resources and join our community of{" "}
             <br className="hidden sm:block" /> MATLAB and Overleaf enthusiasts.
           </p>
-
           {/* Join Us Button */}
           <a href="https://forms.gle/KxZrPb5P1ySvwFQs7" 
               aria-label="Join MATLAB & Overleaf Club"
