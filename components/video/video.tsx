@@ -13,6 +13,7 @@ export default function Video({
         playsInline
         controls
         loop
+        muted
         id="myVideo"
         className={cn("w-full h-full object-cover", className)}
         {...props}

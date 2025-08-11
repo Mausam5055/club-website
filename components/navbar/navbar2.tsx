@@ -9,6 +9,7 @@ const Navbar2: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const [isLinksHovered, setIsLinksHovered] = useState(false);
+  const [isNavbarHovered, setIsNavbarHovered] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -51,27 +52,36 @@ const Navbar2: React.FC = () => {
   ];
 
   const getItemStyle = (itemName: string) => {
-    // Remove background color and shadow, use only text and hover effect
-    return "hover:text-yellow-500 hover:underline underline-offset-8 transition-colors duration-200 bg-transparent shadow-none";
+    return "hover:text-yellow-500 hover:underline underline-offset-8 transition-all duration-300 ease-in-out bg-transparent shadow-none font-semibold tracking-wider text-shadow-sm";
   };
 
   return (
     <nav
-      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ease-in-out
-        bg-white/80 dark:bg-gray-900/80 shadow-2xl rounded-full px-4 py-2
+      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-out
+        bg-white/60 dark:bg-gray-900/60 shadow-2xl rounded-full px-4 py-2
         flex items-center justify-between
-        w-[95vw] max-w-5xl
-        md:w-[80vw] md:max-w-4xl
-        border border-gray-200 dark:border-gray-700/50 backdrop-blur-lg
+        border border-gray-200/40 dark:border-gray-700/30 backdrop-blur-xl
+        ${isNavbarHovered 
+          ? 'w-[99vw] max-w-7xl md:w-[90vw] md:max-w-6xl shadow-3xl' 
+          : 'w-[97vw] max-w-6xl md:w-[85vw] md:max-w-5xl'
+        }
       `}
-      style={{ transition: 'all 0.3s cubic-bezier(.4,2,.6,1)' }}
-      onMouseEnter={() => setIsLinksHovered(true)}
-      onMouseLeave={() => setIsLinksHovered(false)}
+      style={{ 
+        transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease'
+      }}
+      onMouseEnter={() => {
+        setIsLinksHovered(true);
+        setIsNavbarHovered(true);
+      }}
+      onMouseLeave={() => {
+        setIsLinksHovered(false);
+        setIsNavbarHovered(false);
+      }}
     >
       {/* Logo */}
       <div className="flex items-center gap-2 flex-shrink-0">
         <Link href="/#home">
-          <div className="text-gray-700 dark:text-gray-300 hover:text-yellow-500 transition-colors flex items-center gap-2">
+          <div className="text-gray-700 dark:text-gray-300 hover:text-yellow-500 transition-colors duration-300 ease-out flex items-center gap-3">
             <Image
               src="/images/logo.png"
               alt="Club Logo"
@@ -79,7 +89,7 @@ const Navbar2: React.FC = () => {
               height={36}
               className="rounded-full shadow-md"
             />
-            <span className="whitespace-nowrap font-bold text-lg md:text-xl tracking-tight">MATLAB & LaTeX Club</span>
+            <span className="whitespace-nowrap font-bold tracking-wider bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-200 dark:to-white bg-clip-text text-transparent drop-shadow-sm text-lg md:text-xl">MATLAB & LaTeX Club</span>
           </div>
         </Link>
       </div>
@@ -87,23 +97,21 @@ const Navbar2: React.FC = () => {
       <div className="hidden md:block" style={{ minWidth: 32, marginLeft: 16, marginRight: 16 }} />
       {/* Desktop Menu */}
       <div
-        className={`hidden md:flex items-center space-x-2 md:space-x-6 lg:space-x-10 transition-all duration-300 ease-in-out`}
+        className="hidden md:flex items-center transition-all duration-500 ease-out space-x-2 md:space-x-6 lg:space-x-10"
         style={{
           minWidth: 350,
-          maxWidth: 700,
+          maxWidth: isNavbarHovered ? 800 : 700,
           width: '100%',
           justifyContent: 'center',
-          background: 'transparent',
-          borderRadius: 9999,
-          boxShadow: isLinksHovered ? '0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 1.5px 6px 0 rgba(0,0,0,0.10)' : undefined,
         }}
       >
         {navItems.map((item) => (
           <Link key={item.name} href={item.href}>
             <div
               onClick={(e) => handleScroll(e, item.href)}
-              className={`px-2 py-1 rounded-full text-lg font-semibold tracking-wide text-gray-700 dark:text-gray-200 ${getItemStyle(item.name)}
-                ${router?.asPath === item.href ? 'text-yellow-500 underline' : ''}
+              className={`rounded-full text-sm font-semibold tracking-wider text-gray-800 dark:text-gray-100 px-4 py-2.5 ${getItemStyle(item.name)}
+                ${router?.asPath === item.href ? 'text-yellow-500 underline font-bold bg-yellow-50/50 dark:bg-yellow-900/30' : ''}
+                hover:bg-gray-100/70 dark:hover:bg-gray-800/70 hover:scale-110 transform transition-all duration-300
               `}
               aria-label={item.name}
               style={{ cursor: 'pointer' }}
@@ -133,28 +141,111 @@ const Navbar2: React.FC = () => {
           )}
         </button>
       </div>
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white/95 dark:bg-gray-900/95 rounded-b-2xl shadow-xl border-t border-gray-200 dark:border-gray-700/50 backdrop-blur-lg animate-fadeIn z-40">
-          <div className="flex flex-col items-center space-y-2 px-4 py-4">
-            {navItems.map((item) => (
+      {/* Mobile Menu with Sophisticated Design */}
+      <div
+        className={`absolute top-14 left-0 w-full transition-all duration-700 ease-out transform origin-top z-40 ${
+          isOpen 
+            ? 'opacity-100 scale-y-100 translate-y-0' 
+            : 'opacity-0 scale-y-0 -translate-y-6 pointer-events-none'
+        }`}
+        style={{
+          transformOrigin: 'top center',
+        }}
+      >
+        {/* Backdrop with blur effect */}
+        <div className="absolute inset-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50">
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-yellow-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-yellow-950/20 rounded-3xl" />
+        </div>
+        
+        <div className="relative px-8 py-8">
+          {/* Header with logo */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center gap-3 px-4 py-2 bg-white/60 dark:bg-gray-800/60 rounded-full backdrop-blur-sm border border-gray-200/30 dark:border-gray-600/30">
+              <Image
+                src="/images/logo.png"
+                alt="Club Logo"
+                width={20}
+                height={20}
+                className="rounded-full"
+              />
+              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Menu</span>
+            </div>
+          </div>
+
+          {/* Navigation Items */}
+          <div className="space-y-3">
+            {navItems.map((item, index) => (
               <Link key={item.name} href={item.href}>
                 <div
                   onClick={(e) => handleScroll(e, item.href)}
-                  className={`w-full text-center px-4 py-2 rounded-full text-base font-medium text-gray-700 dark:text-gray-200 hover:text-yellow-500 transition-all duration-200
-                    ${getItemStyle(item.name)}
-                    ${router?.asPath === item.href ? 'text-yellow-500 font-semibold' : ''}
-                    shadow-sm hover:shadow-lg
+                  className={`group relative overflow-hidden px-6 py-4 rounded-2xl transition-all duration-500 ease-out transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer
+                    ${router?.asPath === item.href 
+                      ? 'bg-gradient-to-r from-yellow-400/20 via-amber-400/15 to-orange-400/20 text-yellow-700 dark:text-yellow-400 shadow-lg border-2 border-yellow-300/40 dark:border-yellow-500/40' 
+                      : 'bg-white/70 dark:bg-gray-800/70 hover:bg-gradient-to-r hover:from-gray-100/80 hover:to-gray-50/80 dark:hover:from-gray-700/80 dark:hover:to-gray-800/80 text-gray-700 dark:text-gray-200 border border-gray-200/40 dark:border-gray-600/40 hover:border-gray-300/60 dark:hover:border-gray-500/60'
+                    }
+                    backdrop-blur-sm shadow-md hover:shadow-xl
                   `}
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    animation: isOpen ? `slideInUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards` : 'none'
+                  }}
                   aria-label={item.name}
                 >
-                  {item.name}
+                  {/* Background pattern */}
+                  <div className="absolute inset-0 opacity-5 bg-grid-pattern" />
+                  
+                  {/* Animated background on hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left rounded-2xl`} />
+                  
+                  <div className="relative flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      {/* Icon indicator */}
+                      <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        router?.asPath === item.href 
+                          ? 'bg-gradient-to-r from-yellow-500 to-amber-500 shadow-lg shadow-yellow-500/30' 
+                          : 'bg-gray-300 dark:bg-gray-600 group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-purple-500'
+                      }`} />
+                      
+                      <span className="font-medium text-base tracking-wide">
+                        {item.name}
+                      </span>
+                    </div>
+                    
+                    {/* Arrow indicator */}
+                    <div className={`transition-all duration-300 ${
+                      router?.asPath === item.href 
+                        ? 'text-yellow-600 dark:text-yellow-400' 
+                        : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 group-hover:translate-x-1'
+                    }`}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6-6 6-1.41-1.41z"/>
+                      </svg>
+                    </div>
+                  </div>
+                  
+                  {/* Active indicator line */}
+                  <div className={`absolute bottom-0 left-6 right-6 h-0.5 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full transition-all duration-300 transform ${
+                    router?.asPath === item.href 
+                      ? 'opacity-100 scale-x-100' 
+                      : 'opacity-0 scale-x-0 group-hover:opacity-60 group-hover:scale-x-100'
+                  }`} />
                 </div>
               </Link>
             ))}
           </div>
+          
+          {/* Footer section */}
+          <div className="mt-8 pt-6 border-t border-gray-200/30 dark:border-gray-600/30">
+            <div className="flex items-center justify-center">
+              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-100/80 to-amber-100/80 dark:from-yellow-900/30 dark:to-amber-900/30 rounded-full border border-yellow-200/50 dark:border-yellow-600/30">
+                <div className="w-2 h-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-full animate-pulse" />
+                <span className="text-xs font-medium text-yellow-700 dark:text-yellow-400">MATLAB & LaTeX Club</span>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
